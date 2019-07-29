@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "name": "sun-pwa",
+  "alias": ["sun-pwa"],
+  "builds": [{ "src": "package.json", "use": "@now/next" }],
+  "routes": [
+    {
+      "src": "^/service-worker.js$",
+      "dest": "/_next/static/service-worker.js"
+    }
+  ]
+}

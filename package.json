@@ -1,0 +1,31 @@
+{
+  "name": "sun-pwa",
+  "version": "1.0.0",
+  "description": "Desc",
+  "main": "server/index.js",
+  "scripts": {
+    "build": "next build",
+    "deploy": "now --target production",
+    "dev": "next",
+    "start": "next start"
+  },
+  "author": "Diego",
+  "license": "MIT",
+  "homepage": "https://sun-pwa.diegopittaluga.now.sh",
+  "dependencies": {
+    "@material-ui/core": "latest",
+    "@material-ui/styles": "latest",
+    "classnames": "^2.2.6",
+    "isomorphic-unfetch": "^3.0.0",
+    "next": "^9.0.2",
+    "next-offline": "^4.0.2",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-ionicons": "^3.0.1"
+  },
+  "devDependencies": {
+    "babel-plugin-styled-components": "^1.10.6",
+    "babel-plugin-inline-react-svg": "^1.0.1"
+  }
+}
