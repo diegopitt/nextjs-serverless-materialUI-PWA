@@ -100,23 +100,18 @@ const styles = theme => ({
       width: 28,
       height: 28,
     },
-    '&$light': {
-      '& svg': {
-        fill: theme.palette.common.white,
-      }
-    },
   },
   rightIcon: {
     marginLeft: theme.spacing(0.5),
     opacity: 0.3
   },
   title: {
-    fontSize: 10,
     textTransform: 'uppercase',
     marginTop: theme.spacing(3),
     display: 'block',
     color: theme.palette.secondary.main,
     lineHeight: '28px',
+    fontSize: 10,
     fontWeight: 'bold',
     background: theme.palette.background.paper,
     borderRadius: '12px'

@@ -36,12 +36,19 @@ class MyDocument extends Document {
           <link href="./static/graphics/splash-1242.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
           <link href="./static/graphics/splash-750.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"  rel="apple-touch-startup-image" />
           <link href="./static/graphics/splash-640.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"  rel="apple-touch-startup-image" />
-          <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+          <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600&display=swap" rel="stylesheet" />
         </Head>
         <body style={{ backgroundColor: '#825eeb'}}>
           <Main />
           <NextScript />
         </body>
+        <style jsx>{`
+          html,body,buttons,input,textarea,etc {
+              font-family: 'Montserrat';
+              font-size: 18px;
+              color: #333;
+          }
+      `}</style>
       </html>
     );
   }

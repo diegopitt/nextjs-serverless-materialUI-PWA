@@ -56,7 +56,7 @@ class SidebarContent extends Component {
           <div className={classNames(classes.profile, classes.user)} style={{ opacity: 1 - (transform / 100), marginTop: transform * -0.3 }}>
             <Avatar alt='Diego Mares' src='' className={classNames(classes.avatar, classes.bigAvatar)} />
             <div>
-              <h4>Diego Mares</h4>
+              <div className={classes.username}>Diego Mares</div>
               <Button size="small" onClick={openMenuStatus}>
                 <i className={classNames(classes.dotStatus, setStatus(status))} />
                 {status}

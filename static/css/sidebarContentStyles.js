@@ -44,6 +44,11 @@ const styles = theme => ({
       }
     }
   },
+  username: {
+    lineHeight: '28px',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
   drawerInner: {
     height: '100%',
     position: 'fixed',
