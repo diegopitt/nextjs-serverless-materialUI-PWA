@@ -2,18 +2,23 @@ import { Component } from 'react'
 import Router from 'next/router'
 import nextCookie from 'next-cookies'
 import cookie from 'js-cookie'
-import firebase from 'firebase/app'
-import 'firebase/auth'
+import { firebase } from './firebase'
 
-export const login = async ({ token }) => {
-  cookie.set('token', token, { expires: 1 })
-  Router.push('/profile')
+export const login = async (email, password) => {
+  return firebase.auth().signInWithEmailAndPassword(email, password).then((user) => {
+    cookie.set('userId', user.uid, { expires: 1 })
+    return user;
+  }).catch((error) => {
+    console.log(error.message);
+  });
 }
-
 export const logout = () => {
-  cookie.remove('token')
-  window.localStorage.setItem('logout', Date.now())
-  Router.push('/login')
+  firebase.auth().signOut().then(() => {
+    cookie.remove('userId')
+    return;
+  }).catch(function (error) {
+    console.log(error);
+  });
 }
 
 const getDisplayName = Component => Component.displayName || Component.name || 'Component'
@@ -21,11 +26,9 @@ const getDisplayName = Component => Component.displayName || Component.name || '
 export const withAuthSync = WrappedComponent => class extends Component {
   static displayName = `withAuthSync(${getDisplayName(WrappedComponent)})`
   static async getInitialProps(ctx) {
-    const token = auth(ctx)
-    const componentProps =
-      WrappedComponent.getInitialProps &&
-      (await WrappedComponent.getInitialProps(ctx))
-    return { ...componentProps, token }
+    const userId = auth(ctx)
+    const componentProps = WrappedComponent.getInitialProps && (await WrappedComponent.getInitialProps(ctx))
+    return { ...componentProps, userId }
   }
 
   constructor(props) {
@@ -55,26 +58,9 @@ export const withAuthSync = WrappedComponent => class extends Component {
   authListener() {
     this.fireBaseListener = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        //console.log('saving user');
-        // localStorage.setItem('user', user);
-        // localStorage.setItem('isAuthenticated', true);
-        // localStorage.setItem('userID', user.uid);
-        // this.setState({
-        //   isAuthenticated: true,
-        //   userID: user.uid,
-        //   user: user
-        // })
+        Router.push('/')
       } else {
-        //console.log('user removed');
-        // localStorage.removeItem('user');
-        // localStorage.removeItem('isAuthenticated');
-        // localStorage.removeItem('userID');
-        // this.setState({
-        //   isAuthenticated: false,
-        //   userID: null,
-        //   accountType: null,
-        //   user: {}
-        // });
+        Router.push('/login')
       }
     });
   }
@@ -85,18 +71,15 @@ export const withAuthSync = WrappedComponent => class extends Component {
 }
 
 export const auth = ctx => {
-  const { token } = nextCookie(ctx)
-  /* If we are on server and token is not available, means user is not logged in. */
-  if (ctx.req && !token) {
+  const { userId } = nextCookie(ctx)
+  /* If we are on server and userId is not available, means user is not logged in. */
+  if (ctx.req && !userId) {
     ctx.res.writeHead(302, { Location: '/login' })
     ctx.res.end()
     return
   }
-
-  // We already checked for server. This should only happen on client.
-  if (!token) {
+  if (!userId) {
     Router.push('/login')
   }
-
-  return token
+  return userId
 }

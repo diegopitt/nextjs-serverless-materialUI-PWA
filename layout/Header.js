@@ -46,7 +46,7 @@ class Header extends Component {
     const newFlagTitle = (scroll > 40);
     if (this.flagDarker !== newFlagDarker) {
       this.setState({ turnDarker: newFlagDarker });
-      console.log(newFlagDarker)
+      //console.log(newFlagDarker)
       this.flagDarker = newFlagDarker;
     }
   }

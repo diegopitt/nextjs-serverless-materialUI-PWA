@@ -3,6 +3,7 @@ import App, { Container } from 'next/app';
 import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Provider from '../utils/Provider'
 import theme from '../theme';
 
 class MyApp extends App {
@@ -19,11 +20,13 @@ class MyApp extends App {
     return (
       <Container>
         <Head>
-          <title>My page</title>
+          <title>The sun project</title>
         </Head>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Component {...pageProps} />
+          <Provider>
+            <Component {...pageProps} />
+          </Provider>
         </ThemeProvider>
       </Container>
     );
