@@ -54,7 +54,7 @@ class SidebarContent extends Component {
         <div className={classes.drawerHeader}>
           <img src='' alt='' />
           <div className={classNames(classes.profile, classes.user)} style={{ opacity: 1 - (transform / 100), marginTop: transform * -0.3 }}>
-            <Avatar alt='Diego Mares' src='' className={classNames(classes.avatar, classes.bigAvatar)} />
+            <Avatar alt='' src={this.props.avatarUrl} className={classNames(classes.avatar, classes.bigAvatar)} />
             <div>
               <div className={classes.username}>Diego Mares</div>
               <Button size="small" onClick={openMenuStatus}>

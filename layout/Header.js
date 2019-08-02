@@ -15,6 +15,7 @@ import Button from '@material-ui/core/Button';
 import { getNotifications } from './Notifications/data.js';
 import Notifications from './Notifications';
 import styles from '../static/css/headerStyles';
+import { logout } from '../utils/auth'
 
 class Header extends Component {
   state = {
@@ -27,7 +28,8 @@ class Header extends Component {
   flagDarker = false;
   flagTitle = false;
 
-  componentDidMount = async() => {
+  componentDidMount = async () => {
+    //console.log(localStorage.getItem('user'));
     window.addEventListener('scroll', this.handleScroll);
     const notificationsLimit = 4;
     const { notifications, notificationsCount } = await getNotifications(notificationsLimit);
@@ -87,8 +89,8 @@ class Header extends Component {
               <IosNotificationsOutline />
             </Badge>
           </IconButton>
-          <Button>
-            <Avatar alt="" src="" />
+          <Button onClick={() => logout()}>
+            <Avatar alt='' src={this.props.avatarUrl} />
           </Button>
         </Toolbar>
         <Popover

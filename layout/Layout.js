@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import styles from '../static/css/layoutStyles';
+import { userInfo } from 'os';
 
 class Layout extends Component {
   constructor(props) {
@@ -12,6 +13,9 @@ class Layout extends Component {
     this.state = {
       drawerOpen: false,
     }
+  }
+  componentDidMount() { 
+    //console.log(this.props);
   }
   handleToggleDrawer = () => {
     if (this.state.drawerOpen) {
@@ -22,11 +26,11 @@ class Layout extends Component {
 
   };
   render() {
-    const { classes, children, toggleDrawer } = this.props;
+    const { classes, children, toggleDrawer, profile_url } = this.props;
     return (
       <Fragment>
-        <Header toggleDrawerOpen={this.handleToggleDrawer} margin={!this.state.drawerOpen}  position="left-sidebar" />
-        <Sidebar open={!this.state.drawerOpen} toggleDrawerOpen={this.handleToggleDrawer} dataMenu={[]} leftSidebar  />
+        <Header avatarUrl={profile_url} toggleDrawerOpen={this.handleToggleDrawer} margin={!this.state.drawerOpen}  position="left-sidebar" />
+        <Sidebar avatarUrl={profile_url} open={!this.state.drawerOpen} toggleDrawerOpen={this.handleToggleDrawer} dataMenu={[]} leftSidebar  />
         <main className={classNames(classes.content, !!this.state.drawerOpen ? classes.contentPaddingLeft : '')} id="mainContent">
           <section className={classNames(classes.mainWrap, classes.sidebarLayout)}>
             <Paper className={classNames(classes.paper)} elevation={0}>

@@ -3,19 +3,31 @@ import Router from 'next/router'
 import nextCookie from 'next-cookies'
 import cookie from 'js-cookie'
 import { firebase } from './firebase'
+import SendBird from 'sendbird';
+const SendBirdApp = new SendBird({ appId: '40776739-B936-4974-A5A4-3DC627403F48' })
 
-export const login = async (email, password) => {
+export const login = (email, password) => {
   return firebase.auth().signInWithEmailAndPassword(email, password).then((user) => {
-    cookie.set('userId', user.uid, { expires: 1 })
+    console.log(user.user.uid);
+    SendBirdApp.connect(user.user.uid, (sbUser, error) => {
+      console.log(sbUser);
+      cookie.set('userId', user.user.uid, { expires: 1 })
+      Router.push('/')
+    });
+
     return user;
   }).catch((error) => {
     console.log(error.message);
   });
 }
 export const logout = () => {
-  firebase.auth().signOut().then(() => {
-    cookie.remove('userId')
-    return;
+  return firebase.auth().signOut().then(() => {
+    SendBirdApp.disconnect(function () {
+      console.log('disconneted');
+      cookie.remove('userId')
+      Router.push('/login')
+      return;
+    });
   }).catch(function (error) {
     console.log(error);
   });
@@ -28,7 +40,7 @@ export const withAuthSync = WrappedComponent => class extends Component {
   static async getInitialProps(ctx) {
     const userId = auth(ctx)
     const componentProps = WrappedComponent.getInitialProps && (await WrappedComponent.getInitialProps(ctx))
-    return { ...componentProps, userId }
+    return { ...componentProps, userId, SendBirdApp }
   }
 
   constructor(props) {
@@ -37,14 +49,10 @@ export const withAuthSync = WrappedComponent => class extends Component {
   }
 
   componentDidMount() {
-    this.authListener = this.authListener.bind(this);
-    this.authListener();
     window.addEventListener('storage', this.syncLogout)
   }
 
   componentWillUnmount() {
-    this.fireBaseListener && this.fireBaseListener();
-    this.authListener = undefined;
     window.removeEventListener('storage', this.syncLogout)
     window.localStorage.removeItem('logout')
   }
@@ -55,16 +63,6 @@ export const withAuthSync = WrappedComponent => class extends Component {
     }
   }
 
-  authListener() {
-    this.fireBaseListener = firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        Router.push('/')
-      } else {
-        Router.push('/login')
-      }
-    });
-  }
-
   render() {
     return <WrappedComponent {...this.props} />
   }
@@ -72,7 +70,6 @@ export const withAuthSync = WrappedComponent => class extends Component {
 
 export const auth = ctx => {
   const { userId } = nextCookie(ctx)
-  /* If we are on server and userId is not available, means user is not logged in. */
   if (ctx.req && !userId) {
     ctx.res.writeHead(302, { Location: '/login' })
     ctx.res.end()
