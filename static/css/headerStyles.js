@@ -36,10 +36,14 @@ const styles = theme => ({
       },
     },
   },
+  pover: {
+    borderRadius: 0,
+  },
   floatingBar: {
     position: 'fixed'
   },
   left: {},
+  badge: {},
   right: {},
   appBarShift: {
     transition: theme.transitions.create(['width', 'margin', 'background'], {
@@ -151,6 +155,11 @@ const styles = theme => ({
     }
   },
   show: {},
+  avatarBtn: {
+    padding: '6px 24px',
+    marginLeft: '4px',
+    marginRight: '8px'
+  },
   headerTitle: {
     transition: 'all 0.3s ease',
     fontSize: theme.spacing(3),

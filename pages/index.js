@@ -2,6 +2,7 @@ import fetch from "isomorphic-unfetch";
 import nextCookie from 'next-cookies'
 import Router from 'next/router'
 import { withAuthSync } from '../utils/auth'
+import { sendBirdWrapper } from "../sendbird/sendBirdWrapper";
 import Layout from '../layout/Layout'
 
 const Index = ({ posts, user }) => (

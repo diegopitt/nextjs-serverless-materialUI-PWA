@@ -3,18 +3,24 @@ import { red } from '@material-ui/core/colors';
 
 // Create a theme instance.
 const theme = createMuiTheme({
+  shape: {
+    borderRadius: 0
+  },
   palette: {
     primary: {
       main: '#825eeb',
     },
     secondary: {
-      main: '#19857b',
+      main: '#9b7eef',
+    },
+    hoverDark: {
+      main: '#6440c4',
     },
     error: {
       main: red.A400,
     },
     background: {
-      default: '#fff',
+      default: '#F2F2F2',
     },
   },
 });

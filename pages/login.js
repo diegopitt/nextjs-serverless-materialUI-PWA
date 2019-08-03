@@ -4,7 +4,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import { Button, TextField } from '@material-ui/core';
 import Grid from "@material-ui/core/Grid";
 import { Paper } from '@material-ui/core';
-import { login } from '../utils/auth'
+import { sendBirdWrapper } from "../sendbird/sendBirdWrapper";
 
 const styles = theme => ({
   root: {},
@@ -53,7 +53,7 @@ const Login = class extends Component {
     }
   };
   componentDidMount() {
-
+    //console.log(this.props);
   }
 
   handleFieldChange = (field, value) => {
@@ -66,7 +66,7 @@ const Login = class extends Component {
     const newState = { ...this.state };
     newState.values['disabled'] = true;
     this.setState(newState);
-    login(this.state.values.email, this.state.values.password).then(function (user) {
+    this.props.authenticate(this.state.values.email, this.state.values.password).then(function (user) {
       if (!user) {
         newState.values['disabled'] = false;
         this.setState(newState);
@@ -100,4 +100,4 @@ const Login = class extends Component {
     )
   }
 }
-export default withStyles(styles)(Login)
+export default withStyles(styles)(sendBirdWrapper(Login))

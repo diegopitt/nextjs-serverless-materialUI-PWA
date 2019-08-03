@@ -1,6 +1,7 @@
 import React from 'react';
 import App, { Container } from 'next/app';
 import Head from 'next/head';
+import { ProviderImpl } from "../sendbird/ProviderImpl";
 import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../theme';
@@ -23,7 +24,9 @@ class MyApp extends App {
         </Head>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Component {...pageProps} />
+          <ProviderImpl>
+            <Component {...pageProps} />
+          </ProviderImpl>
         </ThemeProvider>
       </Container>
     );

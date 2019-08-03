@@ -52,7 +52,7 @@ const styles = theme => ({
   drawerInner: {
     height: '100%',
     position: 'fixed',
-    backgroundColor: fade(theme.palette.background.paper, 0.95),
+    backgroundColor: '#F2F2F2',
     boxShadow: 'none',
   },
   drawerHeader: {

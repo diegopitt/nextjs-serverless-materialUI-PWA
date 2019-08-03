@@ -13,10 +13,10 @@ export default theme => ({
     backgroundPositionY: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'contain',
-    paddingBottom: '34px',
+    paddingBottom: '14px',
     paddingLeft: '20px',
     paddingRight: '20px',
-    paddingTop: '34px'
+    paddingTop: '14px'
   },
   subtitle: {
     color: theme.palette.text.secondary

@@ -15,7 +15,8 @@ import Button from '@material-ui/core/Button';
 import { getNotifications } from './Notifications/data.js';
 import Notifications from './Notifications';
 import styles from '../static/css/headerStyles';
-import { logout } from '../utils/auth'
+import { sendBirdWrapper } from "../sendbird/sendBirdWrapper";
+
 
 class Header extends Component {
   state = {
@@ -26,10 +27,8 @@ class Header extends Component {
     notificationsCount: 0
   };
   flagDarker = false;
-  flagTitle = false;
 
   componentDidMount = async () => {
-    //console.log(localStorage.getItem('user'));
     window.addEventListener('scroll', this.handleScroll);
     const notificationsLimit = 4;
     const { notifications, notificationsCount } = await getNotifications(notificationsLimit);
@@ -45,24 +44,20 @@ class Header extends Component {
     const doc = document.documentElement;
     const scroll = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
     const newFlagDarker = (scroll > 30);
-    const newFlagTitle = (scroll > 40);
     if (this.flagDarker !== newFlagDarker) {
       this.setState({ turnDarker: newFlagDarker });
-      //console.log(newFlagDarker)
       this.flagDarker = newFlagDarker;
     }
   }
   render() {
     const { classes, toggleDrawerOpen, margin, position } = this.props;
     const { open, turnDarker, notifications } = this.state;
-
     const setMargin = (sidebarPosition) => {
       if (sidebarPosition === 'right-sidebar') {
         return classes.right;
       }
       return classes.left;
     };
-
     const handleShowNotifications = event => {
       this.setState({ notificationsPopUp: event.currentTarget });
     };
@@ -70,7 +65,6 @@ class Header extends Component {
     const handleCloseNotifications = () => {
       this.setState({ notificationsPopUp: null });
     };
-
     const showNotifications = Boolean(this.state.notificationsPopUp);
 
     return (
@@ -80,29 +74,22 @@ class Header extends Component {
             <IosMenuOutline />
           </Fab>
           <div className={classes.headerProperties}>
-            <Typography component="h2" className={classNames(classes.headerTitle)}>
-              Market
-            </Typography>
+            <Typography component="h2" className={classNames(classes.headerTitle)}>Market</Typography>
           </div>
           <IconButton aria-haspopup="true" color="inherit" className={classNames(classes.notifIcon, classes.light)} onClick={handleShowNotifications}>
             <Badge className={classes.badge} badgeContent={4} color="secondary">
-              <IosNotificationsOutline />
+              <IosNotificationsOutline color="#ffffff" />
             </Badge>
           </IconButton>
-          <Button onClick={() => logout()}>
+          <Button className={classes.avatarBtn} onClick={() => this.props.signout()}>
             <Avatar alt='' src={this.props.avatarUrl} />
           </Button>
         </Toolbar>
-        <Popover
-          anchorEl={this.state.notificationsPopUp}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          onClose={handleCloseNotifications}
-          open={showNotifications}
-          transformOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Popover animated="false" style={{ borderRadius: 0 }} className={classes.pover} anchorEl={this.state.notificationsPopUp} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} onClose={handleCloseNotifications} open={showNotifications} transformOrigin={{ vertical: 'top', horizontal: 'center' }}>
           <Notifications notifications={notifications} onSelect={handleCloseNotifications} />
         </Popover>
       </AppBar>
     );
   }
 }
-export default withStyles(styles)(Header);
+export default withStyles(styles)(sendBirdWrapper(Header));

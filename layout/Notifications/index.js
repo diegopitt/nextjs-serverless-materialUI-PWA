@@ -8,7 +8,6 @@ import IosArrowForward from 'react-ionicons/lib/IosArrowForward';
 import MdAppstore from 'react-ionicons/lib/MdAppstore';
 import IosPeopleOutline from 'react-ionicons/lib/IosPeopleOutline';
 import IosCodeWorking from 'react-ionicons/lib/IosCodeWorking';
-
 import styles from '../../static/css/notificationsStyles';
 //import empty from "../../static/graphics/empty.png"
 
