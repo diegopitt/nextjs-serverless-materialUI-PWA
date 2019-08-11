@@ -1,8 +1,6 @@
 import { Component } from 'react'
 import Router from 'next/router'
 import nextCookie from 'next-cookies'
-import cookie from 'js-cookie'
-import { firebase } from './firebase'
 
 const getDisplayName = Component => Component.displayName || Component.name || 'Component'
 
@@ -12,10 +10,6 @@ export const withAuthSync = WrappedComponent => class extends Component {
     const userId = auth(ctx)
     const componentProps = WrappedComponent.getInitialProps && (await WrappedComponent.getInitialProps(ctx))
     return { ...componentProps, userId }
-  }
-
-  constructor(props) {
-    super(props)
   }
 
   render() {

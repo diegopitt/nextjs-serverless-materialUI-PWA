@@ -15,7 +15,7 @@ class Layout extends Component {
     }
   }
   componentDidMount() { 
-    //console.log(this.props);
+    console.log(this.props.user);
   }
   handleToggleDrawer = () => {
     if (this.state.drawerOpen) {
@@ -26,11 +26,12 @@ class Layout extends Component {
 
   };
   render() {
-    const { classes, children, toggleDrawer, profile_url } = this.props;
+    const { classes, children, toggleDrawer } = this.props;
+    console.log(this.props.user);
     return (
       <Fragment>
-        <Header avatarUrl={profile_url} toggleDrawerOpen={this.handleToggleDrawer} margin={!this.state.drawerOpen}  position="left-sidebar" />
-        <Sidebar avatarUrl={profile_url} open={!this.state.drawerOpen} toggleDrawerOpen={this.handleToggleDrawer} dataMenu={[]} leftSidebar  />
+        <Header user={this.props.user} toggleDrawerOpen={this.handleToggleDrawer} margin={!this.state.drawerOpen}  position="left-sidebar" />
+        <Sidebar user={this.props.user} open={!this.state.drawerOpen} toggleDrawerOpen={this.handleToggleDrawer} dataMenu={[]} leftSidebar  />
         <main className={classNames(classes.content, !!this.state.drawerOpen ? classes.contentPaddingLeft : '')} id="mainContent">
           <section className={classNames(classes.mainWrap, classes.sidebarLayout)}>
             <Paper className={classNames(classes.paper)} elevation={0}>

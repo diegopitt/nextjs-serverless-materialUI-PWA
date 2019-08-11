@@ -13,6 +13,9 @@ const theme = createMuiTheme({
     secondary: {
       main: '#9b7eef',
     },
+    grey: {
+      main: '#e6ebf1',
+    },
     hoverDark: {
       main: '#6440c4',
     },
@@ -20,7 +23,7 @@ const theme = createMuiTheme({
       main: red.A400,
     },
     background: {
-      default: '#F2F2F2',
+      default: '#FFFFFF',
     },
   },
 });

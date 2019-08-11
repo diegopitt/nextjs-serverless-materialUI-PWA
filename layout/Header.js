@@ -39,7 +39,9 @@ class Header extends Component {
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
   }
-
+  componentWillMount() {
+  
+  }
   handleScroll = () => {
     const doc = document.documentElement;
     const scroll = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
@@ -50,7 +52,7 @@ class Header extends Component {
     }
   }
   render() {
-    const { classes, toggleDrawerOpen, margin, position } = this.props;
+    const { classes, toggleDrawerOpen, margin, position, user, sendbirdUser } = this.props;
     const { open, turnDarker, notifications } = this.state;
     const setMargin = (sidebarPosition) => {
       if (sidebarPosition === 'right-sidebar') {
@@ -82,7 +84,7 @@ class Header extends Component {
             </Badge>
           </IconButton>
           <Button className={classes.avatarBtn} onClick={() => this.props.signout()}>
-            <Avatar alt='' src={this.props.avatarUrl} />
+            <Avatar alt='' src={sendbirdUser ? sendbirdUser.profileUrl : user.profile_url} />
           </Button>
         </Toolbar>
         <Popover animated="false" style={{ borderRadius: 0 }} className={classes.pover} anchorEl={this.state.notificationsPopUp} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} onClose={handleCloseNotifications} open={showNotifications} transformOrigin={{ vertical: 'top', horizontal: 'center' }}>

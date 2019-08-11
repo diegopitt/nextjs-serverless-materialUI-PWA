@@ -6,7 +6,7 @@ import Drawer from '@material-ui/core/Drawer';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import styles from '../static/css/sidebarStyle';
 import SidebarContent from './SidebarContent';
-
+import { sendBirdWrapper } from "../sendbird/sendBirdWrapper"; 
 class Sidebar extends Component {
   state = {
     status: 'Online',
@@ -48,4 +48,4 @@ class Sidebar extends Component {
   }
 }
 
-export default withStyles(styles)(Sidebar);
+export default withStyles(styles)(sendBirdWrapper(Sidebar));

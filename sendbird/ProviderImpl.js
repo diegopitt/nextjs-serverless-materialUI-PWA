@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import cookie from 'js-cookie';
-import Router from 'next/router';
 import { Context } from "./Context";
 import SendBird from 'sendbird';
+import cookie from 'js-cookie';
+import Router from 'next/router';
 import { firebase } from '../utils/firebase.js';
 const SendBirdApp = new SendBird({ appId: '40776739-B936-4974-A5A4-3DC627403F48' })
 
@@ -13,40 +13,55 @@ export class ProviderImpl extends Component {
     this.state = {
       isAuthenticated: false,
       sendbird: SendBirdApp,
-      isAuthenticating: false,
+      channelUrl: '',
+      openChannels: [],
+      sendbirdUser: null,
+      isAuthenticating: false
     }
   }
 
   authListener() {
     this.fireBaseListener = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log('Authenticated');
-      } else {
-        console.log('Not Authenticated');
+        this.state.sendbird.connect(user.uid, (sbUser, error) => {
+          this.ChannelList().then(function (channels) {
+            console.log(channels);
+            this.setState({ openChannels: channels, sendbirdUser: sbUser});
+          }.bind(this))
+        });
       }
     });
   }
 
   authenticate = (email, password) => {
     return firebase.auth().signInWithEmailAndPassword(email, password).then((user) => {
-      this.state.sendbird.connect(user.user.uid, (sbUser, error) => {
-        cookie.set('userId', user.user.uid, { expires: 1 })
-        Router.push('/')
-      });
+      cookie.set('userId', user.user.uid, { expires: 1 })
+      Router.push('/')
       return user;
     }).catch((error) => {
       console.log(error.message);
     });
   }
-
+  ChannelList = () => {
+    const sb = SendBird.getInstance();
+    const openChannelListQuery = sb.OpenChannel.createOpenChannelListQuery();
+    return new Promise((resolve, reject) => {
+      openChannelListQuery.next((channels, error) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(channels);
+        }
+      });
+    });
+  }
   signout = () => {
     return firebase.auth().signOut().then(() => {
       this.state.sendbird.disconnect(function () {
-        console.log('disconneted');
         cookie.remove('userId')
         Router.push('/login')
-        return;
-      });
+        return
+      })
     }).catch(function (error) {
       console.log(error);
     });
@@ -75,7 +90,7 @@ export class ProviderImpl extends Component {
   }
 
   render = () =>
-    <Context.Provider value={{...this.state, authenticate: this.authenticate, signout: this.signout}}>
+    <Context.Provider value={{ ...this.state, openChannels: this.state.openChannels, sendbirdUser: this.state.sendbirdUser, channelUrl: this.state.channelUrl, authenticate: this.authenticate, signout: this.signout }}>
       {this.props.children}
     </Context.Provider>
 }
